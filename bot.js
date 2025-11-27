@@ -21,9 +21,22 @@ const CONFIG = {
   colors: { accent: 0xFF0000, panel: 0xFF0000 },
 
   // (opsional) URL banner gambar
-  images: { paymentBanner: 'https://media.discordapp.net/attachments/1408130596500279397/1409522154818764982/instagram_feed.png?ex=68cab04d&is=68c95ecd&hm=abd671483fca656f2cb5c1daa2906b25c0f44ce01385f9a7b2025043fbe8747a&=&format=webp&quality=lossless&width=960&height=960', priceBeforeBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856', priceAfterBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856', giftBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856', instantBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856' },
+  images: { 
+    paymentBanner: 'https://media.discordapp.net/attachments/1408130596500279397/1409522154818764982/instagram_feed.png?ex=68cab04d&is=68c95ecd&hm=abd671483fca656f2cb5c1daa2906b25c0f44ce01385f9a7b2025043fbe8747a&=&format=webp&quality=lossless&width=960&height=960', 
+    priceBeforeBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856', 
+    priceAfterBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856', 
+    giftBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856', 
+    instantBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856',
+    loginBanner: 'https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856'
+  },
 
-  rates: { gamepass_before_tax_delay: 95, gamepass_after_tax_delay: 136, gift_gamepass_instant: 95, instant_payout: 135 },
+  rates: { 
+    gamepass_before_tax_delay: 85, 
+    gamepass_after_tax_delay: 120, 
+    gift_gamepass_instant: 95, 
+    instant_payout: 135,
+    via_login: 150
+  },
 
   giftSupportedGames: [
     'Anime Vanguard','Arise Crossover','Basketball Zero','Bluelock Rivals','Bloxfruits','Bloxburg',
@@ -51,21 +64,25 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 const commands = [
   new SlashCommandBuilder().setName('setup').setDescription('Kirim panel verif/payment/price (admin only)')
-    .addStringOption(o=>o.setName('panel').setDescription('verify | payment | price_all').setRequired(true))
+    .addStringOption(o=>o.setName('panel').setDescription('verify | payment | robux | gift_gamepass | instant_payout | vilog | price_all').setRequired(true))
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
   new SlashCommandBuilder().setName('calc').setDescription('Hitung harga Robux ↔ Rupiah')
     .addIntegerOption(o=>o.setName('robux').setDescription('Jumlah Robux (isi salah satu)'))
     .addIntegerOption(o=>o.setName('rupiah').setDescription('Jumlah Rupiah (isi salah satu)'))
     .addIntegerOption(o=>o.setName('rate').setDescription('Override rate (opsional)')),
   new SlashCommandBuilder().setName('order').setDescription('Buka form order Robux'),
+  new SlashCommandBuilder().setName('format').setDescription('Tampilkan format order untuk metode via login'),
+  new SlashCommandBuilder().setName('qris').setDescription('Tampilkan QR Code untuk pembayaran QRIS'),
+  new SlashCommandBuilder().setName('group').setDescription('Informasi Group Community Roblox'),
+  new SlashCommandBuilder().setName('fishit').setDescription('Link server Fisch untuk join'),
+  new SlashCommandBuilder().setName('chat').setDescription('Kirim pesan ke channel (admin only)')
+    .addStringOption(o=>o.setName('message').setDescription('Pesan yang ingin dikirim').setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
   new SlashCommandBuilder().setName('rates').setDescription('Lihat/ubah rate')
     .addSubcommand(s=>s.setName('show').setDescription('Tampilkan rate sekarang'))
     .addSubcommand(s=>s.setName('set').setDescription('Ubah rate (admin only)')
-      .addStringOption(o=>o.setName('jenis').setDescription('before_tax | after_tax | gift | instant').setRequired(true))
-      .addIntegerOption(o=>o.setName('nilai').setDescription('Nilai rate baru').setRequired(true))),
-  new SlashCommandBuilder().setName('ready').setDescription('Umumkan bahwa kita akan ready tanggal 27'),
-  new SlashCommandBuilder().setName('sold').setDescription('Ucapan terima kasih setelah pembelian'),
-
+      .addStringOption(o=>o.setName('jenis').setDescription('before_tax | after_tax | gift | instant | login').setRequired(true))
+      .addIntegerOption(o=>o.setName('nilai').setDescription('Nilai rate baru').setRequired(true)))
 ]
 
 client.once('ready', async () => {
@@ -91,18 +108,31 @@ const rowPayment = ()=>{ const b=CONFIG.payments.buttons; return new ActionRowBu
   new ButtonBuilder().setCustomId('pay_seabank').setLabel(b.seabank.label).setStyle(b.seabank.available?ButtonStyle.Success:ButtonStyle.Danger),
   new ButtonBuilder().setCustomId('pay_qris').setLabel(b.qris.label).setStyle(b.qris.available?ButtonStyle.Success:ButtonStyle.Danger)) }
 
-const embedBefore = ()=>{ const r=CONFIG.rates.gamepass_before_tax_delay; const list=[[100],[200],[300],[400],[500],[1000],[1500],[2000],[5000]]
-  .map(([n])=>`${n} Robux = Rp ${(n*r).toLocaleString('id-ID')}`); const e=new EmbedBuilder().setColor(red)
-  .setTitle(`ROBUX BEFORE TAX VIA GAMEPASS DELAY 5–7 HARI (RATE ${r})`).setDescription(code(list)); if(CONFIG.images.priceBeforeBanner) e.setImage(CONFIG.images.priceBeforeBanner); return e }
-const embedAfter = ()=>{ const r=CONFIG.rates.gamepass_after_tax_delay; const list=[[100],[200],[300],[400],[500],[1000],[1500],[2000],[5000]]
-  .map(([n])=>`${n} Robux = Rp ${(n*r).toLocaleString('id-ID')}`); const e=new EmbedBuilder().setColor(red)
-  .setTitle(`ROBUX AFTER TAX VIA GAMEPASS DELAY 5–7 HARI (RATE ${r})`).setDescription(code(list)); if(CONFIG.images.priceAfterBanner) e.setImage(CONFIG.images.priceAfterBanner); return e }
+const embedRobux = ()=>{ 
+  const rBefore = CONFIG.rates.gamepass_before_tax_delay
+  const rAfter = CONFIG.rates.gamepass_after_tax_delay
+  const listBefore = [[100],[200],[300],[400],[500],[1000],[1500],[2000],[5000]]
+    .map(([n])=>`${n} Robux = Rp ${(n*rBefore).toLocaleString('id-ID')}`)
+  const listAfter = [[100],[200],[300],[400],[500],[1000],[1500],[2000],[5000]]
+    .map(([n])=>`${n} Robux = Rp ${(n*rAfter).toLocaleString('id-ID')}`)
+  
+  const combinedText = `**ROBUX BEFORE TAX VIA GAMEPASS DELAY 5–7 HARI (RATE ${rBefore})**\n${code(listBefore)}\n**ROBUX AFTER TAX VIA GAMEPASS DELAY 5–7 HARI (RATE ${rAfter})**\n${code(listAfter)}`
+  
+  const e = new EmbedBuilder().setColor(red)
+    .setDescription(combinedText)
+  
+  if(CONFIG.images.priceBeforeBanner) e.setImage(CONFIG.images.priceBeforeBanner)
+  return e 
+}
 const embedGift = ()=>{ const r=CONFIG.rates.gift_gamepass_instant; const e=new EmbedBuilder().setColor(red)
   .setTitle(`ROBUX GIFT GAMEPASS INSTANT (RATE ${r})`).setDescription(code(CONFIG.giftSupportedGames.map(g=>`- ${g}`)))
   .addFields({ name:'Catatan', value:`Hitung total: jumlah Robux × ${r}. Contoh: 1460 × ${r} = Rp ${(1460*r).toLocaleString('id-ID')}` }); if(CONFIG.images.giftBanner) e.setImage(CONFIG.images.giftBanner); return e }
 const embedInstant = ()=>{ const r=CONFIG.rates.instant_payout; const list=[[500],[1000],[1500],[2000],[5000]]
   .map(([n])=>`${n} Robux = Rp ${(n*r).toLocaleString('id-ID')}`); const e=new EmbedBuilder().setColor(red)
   .setTitle(`ROBUX INSTANT PAYOUT (RATE ${r})`).setDescription(code(list)); if(CONFIG.images.instantBanner) e.setImage(CONFIG.images.instantBanner); return e }
+const embedLogin = ()=>{ const r=CONFIG.rates.via_login; const list=[[500],[1000],[1500],[2000],[2500],[3000],[3500],[4000],[4500],[5000]]
+  .map(([n])=>`${n} Robux = Rp ${(n*r).toLocaleString('id-ID')}`); const e=new EmbedBuilder().setColor(red)
+  .setTitle(`ROBUX VIA LOGIN (RATE ${r})`).setDescription(code(list)); if(CONFIG.images.loginBanner) e.setImage(CONFIG.images.loginBanner); return e }
 
 // ============== INTERACTIONS ==============
 client.on('interactionCreate', async (i)=>{
@@ -113,11 +143,15 @@ client.on('interactionCreate', async (i)=>{
         const panel=i.options.getString('panel',true)
         if(panel==='verify'){ await i.channel.send({ embeds:[embedVerify()], components:[rowVerify()] }); return i.reply({ content:'✅ Panel Verify terkirim.', ephemeral:true }) }
         if(panel==='payment'){ await i.channel.send({ embeds:[embedPayment()], components:[rowPayment()] }); return i.reply({ content:'✅ Panel Payment terkirim.', ephemeral:true }) }
+        if(panel==='robux'){ await i.channel.send({ embeds:[embedRobux()] }); return i.reply({ content:'✅ Panel Robux (Before & After Tax) terkirim.', ephemeral:true }) }
+        if(panel==='gift_gamepass'){ await i.channel.send({ embeds:[embedGift()] }); return i.reply({ content:'✅ Panel Gift Gamepass terkirim.', ephemeral:true }) }
+        if(panel==='instant_payout'){ await i.channel.send({ embeds:[embedInstant()] }); return i.reply({ content:'✅ Panel Instant Payout terkirim.', ephemeral:true }) }
+        if(panel==='vilog'){ await i.channel.send({ embeds:[embedLogin()] }); return i.reply({ content:'✅ Panel Via Login terkirim.', ephemeral:true }) }
         if(panel==='price_all'){
-          await i.channel.send({ embeds:[embedBefore()] })
-          await i.channel.send({ embeds:[embedAfter()] })
+          await i.channel.send({ embeds:[embedRobux()] })
           await i.channel.send({ embeds:[embedGift()] })
           await i.channel.send({ embeds:[embedInstant()] })
+          await i.channel.send({ embeds:[embedLogin()] })
           return i.reply({ content:'✅ Semua price panel terkirim.', ephemeral:true })
         }
         return i.reply({ content:'Panel tidak dikenal.', ephemeral:true })
@@ -139,20 +173,60 @@ client.on('interactionCreate', async (i)=>{
         return i.showModal(modal)
       }
 
-      if(i.commandName==='ready'){
-        return i.reply({ content: '# KITA AKAN READY DI TANGGAL 27 SEPTEMBER 2025 JAM 4 SORE' })
+      if(i.commandName==='format'){
+        const formatText = `Username/Email      : \nPassword            : \nOrder               :\nKode Backup(3 kode) : `
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('Format Order')
+          .setDescription('```\n' + formatText + '\n```')
+          .addFields({ 
+            name: '📝 Cara ambil kode backup', 
+            value: 'Roblox Setting/pengaturan > keamanan/Security > nyalain email (secure) > ada backup code generate' 
+          })
+        return i.reply({ embeds: [embed] })
       }
 
-      if(i.commandName==='sold'){
-        return i.reply({ content: '# SOLD SEMUA TEMAN TEMAN, TERIMA KASIH SUDAH MEMBELI DI RAURA STORE' })
+      if(i.commandName==='qris'){
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('💳 QRIS Payment')
+          .setDescription('Scan QR Code di bawah ini untuk melakukan pembayaran via QRIS dan Sertakan Bukti pembayarannya')
+          .setImage('https://media.discordapp.net/attachments/1433166490751860847/1433362892757008414/qris.png?ex=69046ab8&is=69031938&hm=03a77859f77fedd3882e570f79593cca8dc499359ea2b84296939b41b0aa8c02&=&format=webp&quality=lossless&width=1032&height=1032')
+          .setFooter({ text: 'Raura Store - QRIS Payment' })
+        return i.reply({ embeds: [embed] })
       }
 
+      if(i.commandName==='group'){
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('👥 Group Community Roblox')
+          .setDescription('Harus stay di Group Community selama **14 hari**\nJika ingin membeli robux instant tanpa login\n\n🔗 **Link Group:**\nhttps://www.roblox.com/share/g/52494457')
+          .setImage('https://media.discordapp.net/attachments/1371117230208585783/1417544037346316420/CARA_MEMBUAT_Presentasi_1.png?ex=68cade43&is=68c98cc3&hm=1511df7e39f0e88591742a408bf8aa9018a9d3ff6587da679e1f57a196c58320&=&format=webp&quality=lossless&width=1522&height=856')
+          .setFooter({ text: 'Raura Store' })
+        return i.reply({ embeds: [embed] })
+      }
+
+      if(i.commandName==='fishit'){
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('🎣 FishIt Server Link')
+          .setDescription('Silahkan Klik link tersebut dan join, yang pake RF jangan mager yok kita tidak menerima add friend dan join link kalian Terima kasih🙏\n\n🔗 **Link Server:**\nhttps://www.roblox.com/share?code=bab71f9550ca334d96bc117b501865b1&type=Server')
+          .setFooter({ text: 'Raura Store' })
+        return i.reply({ embeds: [embed] })
+      }
+
+      if(i.commandName==='chat'){
+        if(!isAdmin(i.member)) return i.reply({ content:'Kamu tidak punya izin.', ephemeral:true })
+        const message = i.options.getString('message', true)
+        await i.channel.send({ content: message })
+        return i.reply({ content: '✅ Pesan berhasil dikirim.', ephemeral: true })
+      }
 
       if(i.commandName==='rates'){
         const sub=i.options.getSubcommand()
         if(sub==='show'){
           const r=CONFIG.rates
-          return i.reply({ embeds:[ new EmbedBuilder().setColor(red).setTitle('Rates Saat Ini').setDescription(`• Before tax (GP delay): **${r.gamepass_before_tax_delay}**\n• After tax (GP delay): **${r.gamepass_after_tax_delay}**\n• Gift GP instant: **${r.gift_gamepass_instant}**\n• Instant payout: **${r.instant_payout}**`) ] })
+          return i.reply({ embeds:[ new EmbedBuilder().setColor(red).setTitle('Rates Saat Ini').setDescription(`• Before tax (GP delay): **${r.gamepass_before_tax_delay}**\n• After tax (GP delay): **${r.gamepass_after_tax_delay}**\n• Gift GP instant: **${r.gift_gamepass_instant}**\n• Instant payout: **${r.instant_payout}**\n• Via Login: **${r.via_login}**`) ] })
         }
         if(sub==='set'){
           if(!isAdmin(i.member)) return i.reply({ content:'Admin only.', ephemeral:true })
@@ -161,6 +235,7 @@ client.on('interactionCreate', async (i)=>{
           else if(jenis==='after_tax') CONFIG.rates.gamepass_after_tax_delay=nilai
           else if(jenis==='gift') CONFIG.rates.gift_gamepass_instant=nilai
           else if(jenis==='instant') CONFIG.rates.instant_payout=nilai
+          else if(jenis==='login') CONFIG.rates.via_login=nilai
           else return i.reply({ content:'Jenis tidak dikenal.', ephemeral:true })
           return i.reply({ content:`✅ Rate **${jenis}** diupdate ke **${nilai}**.`, ephemeral:true })
         }
