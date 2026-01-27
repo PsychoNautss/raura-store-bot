@@ -82,7 +82,23 @@ const commands = [
     .addSubcommand(s=>s.setName('show').setDescription('Tampilkan rate sekarang'))
     .addSubcommand(s=>s.setName('set').setDescription('Ubah rate (admin only)')
       .addStringOption(o=>o.setName('jenis').setDescription('before_tax | after_tax | gift | instant | login').setRequired(true))
-      .addIntegerOption(o=>o.setName('nilai').setDescription('Nilai rate baru').setRequired(true)))
+      .addIntegerOption(o=>o.setName('nilai').setDescription('Nilai rate baru').setRequired(true))),
+  new SlashCommandBuilder()
+  .setName('theforge')
+  .setDescription('Link server The Forge / World 1'),
+  new SlashCommandBuilder()
+  .setName('pricefishit')
+  .setDescription('Harga item untuk game FISH IT'),
+  new SlashCommandBuilder()
+  .setName('pricetheforge')
+  .setDescription('Harga item untuk game THE FORGE'),
+  new SlashCommandBuilder()
+  .setName('pricesab')
+  .setDescription('Harga item untuk game STEAL A BRAINROT'),
+  new SlashCommandBuilder()
+  .setName('priceantartica')
+  .setDescription('Harga item untuk game EXPEDITION ANTARTICA'),
+
 ]
 
 client.once('ready', async () => {
@@ -127,9 +143,22 @@ const embedRobux = ()=>{
 const embedGift = ()=>{ const r=CONFIG.rates.gift_gamepass_instant; const e=new EmbedBuilder().setColor(red)
   .setTitle(`ROBUX GIFT GAMEPASS INSTANT (RATE ${r})`).setDescription(code(CONFIG.giftSupportedGames.map(g=>`- ${g}`)))
   .addFields({ name:'Catatan', value:`Hitung total: jumlah Robux × ${r}. Contoh: 1460 × ${r} = Rp ${(1460*r).toLocaleString('id-ID')}` }); if(CONFIG.images.giftBanner) e.setImage(CONFIG.images.giftBanner); return e }
-const embedInstant = ()=>{ const r=CONFIG.rates.instant_payout; const list=[[500],[1000],[1500],[2000],[5000]]
-  .map(([n])=>`${n} Robux = Rp ${(n*r).toLocaleString('id-ID')}`); const e=new EmbedBuilder().setColor(red)
-  .setTitle(`ROBUX INSTANT PAYOUT (RATE ${r})`).setDescription(code(list)); if(CONFIG.images.instantBanner) e.setImage(CONFIG.images.instantBanner); return e }
+const embedInstant = ()=>{ 
+  const list=[
+    '100 Robux      : Rp 14.000',
+    '500 Robux      : Rp 70.000',
+    '1.000 Robux    : Rp 135.000',
+    '5.000 Robux    : Rp 675.000',
+    '> 10.000 Robux : Rp 1.250.000',
+    '',
+    'BOLEH BELI RECEH ASALKAN KELIPATAN 100 YAA MANTEMAN',
+    '',
+    '100 - 999      :  RATE 140',
+    '1.000 - 9.999  :  RATE 135',
+    '10K - 100K     :  RATE 125'
+  ]; 
+  const e=new EmbedBuilder().setColor(red)
+  .setTitle('ROBUX INSTANT PAYOUT (RATE 140-125)').setDescription(code(list)); if(CONFIG.images.instantBanner) e.setImage(CONFIG.images.instantBanner); return e }
 const embedLogin = ()=>{ const r=CONFIG.rates.via_login; const list=[[500],[1000],[1500],[2000],[2500],[3000],[3500],[4000],[4500],[5000]]
   .map(([n])=>`${n} Robux = Rp ${(n*r).toLocaleString('id-ID')}`); const e=new EmbedBuilder().setColor(red)
   .setTitle(`ROBUX VIA LOGIN (RATE ${r})`).setDescription(code(list)); if(CONFIG.images.loginBanner) e.setImage(CONFIG.images.loginBanner); return e }
@@ -214,6 +243,152 @@ client.on('interactionCreate', async (i)=>{
           .setFooter({ text: 'Raura Store' })
         return i.reply({ embeds: [embed] })
       }
+
+      if (i.commandName === 'theforge'){
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('🛠️ The Forge Server Link')
+          .setDescription('Silahkan Klik link di bawah ini karna Mimin tidak menerima **ADD FRIEND**, Masuk ke **W1 / World 1** terlebih dahulu lalu klik Link ini\n\nhttps://www.roblox.com/share?code=656d9b15b3767342b37df112edc0951f&type=Server')
+          .setFooter({ text: 'Raura Store' })
+        return i.reply({ embeds: [embed] })
+      }
+
+      if (i.commandName === 'pricefishit'){
+        const priceList = [
+          'BOOST',
+          'x8 6 Jam  : Rp110.000',
+          'x8 9 Jam  : Rp164.500',
+          'x8 12 Jam : Rp219.000',
+          'x8 24 Jam : Rp437.000',
+          'x8 48 Jam : Rp860.000',
+          '',
+          'GAMEPASS',
+          'VIP + LUCK (445r)      : 38.000',
+          '+Mutations (295r)      : 25.500',
+          'Advanced Luck (545r)   : 46.500',
+          'Extra Luck (245r)      : 21.000',
+          'Sell Anywhere (315r)   : 27.000',
+          'Small Luck (50r)       : 5.000',
+          'Double XP (195r)       : 16.500',
+          'Mini Hoverboat (225r)  : 19.500',
+          'Hyper Boat Pack (999r) : 85.000',
+          '',
+          '',
+          'SPINS & SKIN CRATES',
+          'x1 (99 robux)    : 8.500',
+          'x5 (495 robux)   : 42.500',
+          'x10 (990 robux)  : 84.500',
+          '',
+          'Elderwood Crates (99 Robux)  : 8.500',
+          'Elderwood Crates (495 Robux) : 42.500',
+          '',
+          '',
+          'HARGA SKIN BARU',
+          'Ethereal Sword (899 Robux)        : 76.500',
+          'Ethereal Boat (499 Robux)         : 42.500',
+          'Pirate Crate 1x (109 Robux)       : 9.500',
+          'Pirate Crate 5x (545 Robux)       : 46.500' ,
+        ]
+        
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('# FISH IT')
+          .setDescription(code(priceList))
+          .setFooter({ text: 'Raura Store' })
+        return i.reply({ embeds: [embed] })
+      }
+
+      if (i.commandName === 'pricetheforge'){
+        const priceList = [
+          'GAMEPASS',
+          'FAST FORGE (300 ROBUX)     : 25.500',
+          'FORGE ANYWHERE (550 ROBUX) : 47.000',
+          'SELL ANYWHERE (350 ROBUX)  : 30.000',
+          'SUPPORTER (380 ROBUX)      : 32.500',
+          'BETTER FORGE (450 ROBUX)   : 38.500',
+          'DOUBLE STORAGE (250 ROBUX) : 21.500',
+          '',
+          'TOTEMS',
+          'XP TOTEMS 1 (50 ROBUX)        : 5.000',
+          'XP TOTEMS 3 (130 ROBUX)       : 11.500',
+          'LUCK TOTEMS 1 (75 ROBUX)      : 6.500',
+          'LUCK TOTEMS 3 (170 ROBUX)     : 14.500',
+          'MINER TOTEMS 1 (75 ROBUX)     : 6.500',
+          'MINER TOTEMS 3 (170 ROBUX)    : 14.500',
+          'WARRIOR TOTEMS 1 (75 ROBUX)   : 6.500',
+          'WARRIOT TOTEMS 3 (170 ROBUX)  : 14.500',
+          'VATALITY TOTEMS 1 (75 ROBUX)  : 6.500',
+          'VATALITY TOTEMS 3 (170 ROBUX) : 14.500',
+          '',
+          'REROLLS',
+          '1 REROLLS (75 ROBUX)      : 6.500',
+          '5 REROLLS (300 ROBUX)     : 25.500',
+          '10 REROLLS (575 ROBUX)    : 49.000',
+          '',
+        ]
+        
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('# UPDATE PRICELIST HARGA THE FORGE')
+          .setDescription(code(priceList))
+          .setFooter({ text: 'Raura Store' })
+        return i.reply({ embeds: [embed] })
+      }
+
+      if (i.commandName === 'pricesab'){
+        const priceList = [
+          'LUCKY BLOCK',
+          'MYTHIC (175 ROBUX)         : 15.000',
+          'BRAINROT GOD (599 ROBUX)   : 51.000',
+          'SECRET (2399 ROBUX)        : 204.000',
+          '',
+          'GEAR',
+          'BLACKHOLE SLAP (199 ROBUX) : 17.000',
+          'FLYING CARPET (375 ROBUX)  : 32.000',
+          'LASER GUN (749 ROBUX)      : 64.000',
+          'BAN HAMMER (1499 ROBUX)    : 127.500',
+          '',
+          'GAMEPASS',
+          'ADMIN PANEL (7499 ROBUX)   : 637.500',
+          '2X MONEY (299 ROBUX)       : 27.900',
+          'VIP (499 ROBUX)            : 42.500',
+        ]
+        
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('# STEAL A BRAINROT')
+          .setDescription(code(priceList))
+          .setFooter({ text: 'Raura Store' })
+        return i.reply({ embeds: [embed] })
+      }
+
+      if (i.commandName === 'priceantartica'){
+        const priceList = [
+          'GAMEPASS',
+          'SEARCH & RESCUE (545 Robux)     : 46.500',
+          'ELITE PACK (395 Robux)          : 34.000',
+          'EXTRA STAMINA (99 Robux)        : 8.500',
+          'PRO PACK (295 Robux)            : 25.500',
+          'FLASHLIGHT (70 Robux)           : 7.000',
+          'HEALTH BOTTLE (125 Robux)       : Rp11.000',
+          'GUIDE (195 Robux)               : Rp17.000',
+          'MUSIC BACKPACK (345 Robux)      : Rp29.500',
+          'LUXURY PACK (345 Robux)         : Rp29.500',
+          'FLAGS (40 Robux)                : Rp4.000',
+          'STORM GLASSES (99 Robux)        : Rp8.500',
+          'VIP (695 Robux)                 : Rp59.500',
+          'BACKPACK COLOURS (50 Robux)     : Rp5.000',
+          '',
+        ]
+        
+        const embed = new EmbedBuilder()
+          .setColor(red)
+          .setTitle('# EXPEDITION ANTARTICA')
+          .setDescription(code(priceList))
+          .setFooter({ text: 'Raura Store' })
+        return i.reply({ embeds: [embed] })
+      }
+
 
       if(i.commandName==='chat'){
         if(!isAdmin(i.member)) return i.reply({ content:'Kamu tidak punya izin.', ephemeral:true })
